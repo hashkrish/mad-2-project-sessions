@@ -2,3 +2,5 @@
 **.sqlite
 **.sqlite3
 **.db
+**venv**
+**.env
