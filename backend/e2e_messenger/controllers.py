@@ -28,13 +28,11 @@ def token_required(f):
         if "Authorization" in request.headers:
             token = request.headers["Authorization"].split(" ")[1]
 
+        response = {"message": {"error": ""}}
+
         if not token:
-            return make_response(
-                {
-                    "message": {"error": "token missing"},
-                },
-                401,
-            )
+            response["message"]["error"] = "token missing"
+            return make_response(response, 401)
 
         jwt_data = None
         try:
@@ -45,19 +43,16 @@ def token_required(f):
             )
             user = User.query.filter_by(username=jwt_data["username"]).first()
             if not user:
-                return make_response(
-                    {
-                        "message": {
-                            "error": f"User {jwt_data['username']} doesn't exist"
-                        }
-                    },
-                    404,
-                )
+                response["message"][
+                    "error"
+                ] = f"User {jwt_data['username']} doesn't exist"
+                return make_response(response, 404)
 
             token_exp = datetime.utcfromtimestamp(jwt_data["exp"])
             current_time = datetime.utcnow()
             if token_exp < current_time:
-                return make_response({"message": {"error": "Token expired"}}, 401)
+                response["message"]["error"] = "Token expired"
+                return make_response(response, 401)
 
             if user.is_admin:
                 return f(*args, **kwargs)
@@ -74,29 +69,26 @@ def token_required(f):
 
             for regex in accessess:
                 if re.match(regex, request.path):
-                    print(f"Success with {regex}")
                     return f(*args, **kwargs)
-                else:
-                    print(f"Failed with {regex}")
 
-            return make_response(
-                {
-                    "message": {
-                        "error": f"User {jwt_data['username']} doesn't have access to {request.method} {request.path}"
-                    }
-                },
-                403,
-            )
+            response["message"][
+                "error"
+            ] = f"User {jwt_data['username']} doesn't have access to {request.method} {request.path}"
+            return make_response(response, 403)
 
         except BadRequest:
-            return make_response({"message": {"error": "Bad Request"}}, 400)
+            response["message"]["error"] = "Bad Request"
+            return make_response(response, 400)
         except NotFound:
-            return make_response({"message": {"error": "Not Found"}}, 404)
+            response["message"]["error"] = "Not Found"
+            return make_response(response, 404)
         except ExpiredSignatureError:
-            return make_response({"message": {"error": "Signature has expired"}}, 401)
+            response["message"]["error"] = "Signature has expired"
+            return make_response(response, 401)
         except Exception as e:
             # TODO: This is a catch-all exception handler. It should be removed in production
-            return make_response({"message": {"error": str(e)}}, 401)
+            response["message"]["error"] = str(e)
+            return make_response(response, 500)
 
     return decorator
 
