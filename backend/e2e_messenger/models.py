@@ -16,6 +16,11 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return password == self.password
 
+    @property
+    def is_admin(self):
+        admin_role = Role.query.filter_by(name="admin").first()
+        return UserRole.query.filter_by(user_id=self.id, role_id=admin_role.id).first() is not None
+
     def __repr__(self):
         return "<User {}>".format(self.username)
 

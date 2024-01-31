@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta
 from functools import wraps
 
@@ -6,8 +7,15 @@ from flask import Blueprint, jsonify, request
 from jwt import decode, encode
 
 from e2e_messenger.extensions import db
-from e2e_messenger.models import User
+from e2e_messenger.models import Access, User, UserRole
 from e2e_messenger.validation import Validator
+
+method_to_action = {
+    "POST": "create",
+    "GET": "read",
+    "PUT": "update",
+    "DELETE": "delete",
+}
 
 
 def token_required(f):
@@ -32,13 +40,41 @@ def token_required(f):
                 LocalConfig.JWT_SECRET_KEY,
                 algorithms=["HS256"],
             )
-        except:
+            user = User.query.filter_by(username=jwt_data["username"]).first()
+            if not user:
+                return jsonify(
+                    {"message": {"error": f"User {jwt_data['username']} doesn't exist"}}
+                )
+
+            if jwt_data["exp"] < datetime.now():
+                return jsonify({"message": {"error": "Token expired"}})
+
+            if user.is_admin:
+                return f(*args, **kwargs)
+
+            user_roles = UserRole.query.filter_by(user_id=user.id).all()
+            accessess = []
+            for user_role in user_roles:
+                role_accessess = (
+                    Access.query.filter_by(role_id=user_role.role_id)
+                    .where(Access.action == method_to_action[request.method])
+                    .all()
+                )
+                accessess.extend([access.resource for access in role_accessess])
+
+            for regex in accessess:
+                if re.match(regex, request.path):
+                    return f(*args, **kwargs)
             return jsonify(
                 {
-                    "message": {"error": {"message": "Invalid token"}},
+                    "message": {
+                        "error": f"User {jwt_data['username']} doesn't have access to {request.method} {request.path}"
+                    }
                 }
             )
-        return f(*args, **kwargs)
+
+        except:
+            return jsonify({"message": {"error": "Invalid token"}})
 
     return decorator
 

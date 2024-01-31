@@ -29,7 +29,8 @@ echo http://localhost:5000/api/v1
 ** API key
 #+NAME: api_key
 #+BEGIN_SRC sh
-echo 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtyaXNobmFuIiwiZXhwIjoxNzA2Njc1MTYwfQ.dPSRsYHyBJZEIBJy68gnUaow0rhXyhN-hmcFrsrtyvs'
+echo 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbnRoYW5hbSIsImV4cCI6MTcwNjY4MjM5M30.mPAcRyu0tH3ow1JkUr5wLAUvRi6_Blo5wjuSi8uc49o'
+# 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtyaXNobmFuIiwiZXhwIjoxNzA2Njc1MTYwfQ.dPSRsYHyBJZEIBJy68gnUaow0rhXyhN-hmcFrsrtyvs'
 #+END_SRC
 
 ** User ID
@@ -228,21 +229,21 @@ Content-Type: application/json
 #+RESULTS:
 #+BEGIN_SRC js
 {
-  "id": 14,
+  "id": 16,
   "sender_id": 1,
   "receiver_id": 2,
   "text": "Hello world",
-  "timestamp": "2024-01-30 23:05:59"
+  "timestamp": "2024-01-31 00:25:27"
 }
 
 // POST http://localhost:5000/api/v1/messages
 // HTTP/1.1 201 CREATED
 // Server: Werkzeug/3.0.1 Python/3.11.6
-// Date: Tue, 30 Jan 2024 23:05:59 GMT
+// Date: Wed, 31 Jan 2024 00:25:27 GMT
 // Content-Type: application/json
 // Content-Length: 126
 // Connection: close
-// Request duration: 0.038470s
+// Request duration: 0.042966s
 #+END_SRC
 
 *** List messages
@@ -806,7 +807,7 @@ Content-Type: application/json
 
 
 {
-  "username": "krishnan",
+  "username": "santhanam",
   "password": "password"
 }
 #+END_SRC
@@ -814,16 +815,16 @@ Content-Type: application/json
 #+RESULTS:
 #+BEGIN_SRC js
 {
-  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtyaXNobmFuIiwiZXhwIjoxNzA2Njc1MTYwfQ.dPSRsYHyBJZEIBJy68gnUaow0rhXyhN-hmcFrsrtyvs",
+  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbnRoYW5hbSIsImV4cCI6MTcwNjY4MjM5M30.mPAcRyu0tH3ow1JkUr5wLAUvRi6_Blo5wjuSi8uc49o",
   "status": "ok"
 }
 
 // POST http://127.0.0.1:5000/login
 // HTTP/1.1 200 OK
 // Server: Werkzeug/3.0.1 Python/3.11.6
-// Date: Tue, 30 Jan 2024 22:26:00 GMT
+// Date: Wed, 31 Jan 2024 00:26:33 GMT
 // Content-Type: application/json
-// Content-Length: 169
+// Content-Length: 170
 // Connection: close
-// Request duration: 0.021682s
+// Request duration: 0.018475s
 #+END_SRC
