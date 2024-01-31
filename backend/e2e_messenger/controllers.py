@@ -2,9 +2,11 @@ import re
 from datetime import datetime, timedelta
 from functools import wraps
 
+from werkzeug.exceptions import BadRequest, NotFound
+
 from config import LocalConfig
-from flask import Blueprint, jsonify, request
-from jwt import decode, encode
+from flask import Blueprint, jsonify, request, make_response
+from jwt import ExpiredSignatureError, decode, encode
 
 from e2e_messenger.extensions import db
 from e2e_messenger.models import Access, User, UserRole
@@ -27,10 +29,11 @@ def token_required(f):
             token = request.headers["Authorization"].split(" ")[1]
 
         if not token:
-            return jsonify(
+            return make_response(
                 {
                     "message": {"error": "token missing"},
-                }
+                },
+                401,
             )
 
         jwt_data = None
@@ -42,12 +45,19 @@ def token_required(f):
             )
             user = User.query.filter_by(username=jwt_data["username"]).first()
             if not user:
-                return jsonify(
-                    {"message": {"error": f"User {jwt_data['username']} doesn't exist"}}
+                return make_response(
+                    {
+                        "message": {
+                            "error": f"User {jwt_data['username']} doesn't exist"
+                        }
+                    },
+                    404,
                 )
 
-            if jwt_data["exp"] < datetime.now():
-                return jsonify({"message": {"error": "Token expired"}})
+            token_exp = datetime.utcfromtimestamp(jwt_data["exp"])
+            current_time = datetime.utcnow()
+            if token_exp < current_time:
+                return make_response({"message": {"error": "Token expired"}}, 401)
 
             if user.is_admin:
                 return f(*args, **kwargs)
@@ -64,17 +74,29 @@ def token_required(f):
 
             for regex in accessess:
                 if re.match(regex, request.path):
+                    print(f"Success with {regex}")
                     return f(*args, **kwargs)
-            return jsonify(
+                else:
+                    print(f"Failed with {regex}")
+
+            return make_response(
                 {
                     "message": {
                         "error": f"User {jwt_data['username']} doesn't have access to {request.method} {request.path}"
                     }
-                }
+                },
+                403,
             )
 
-        except:
-            return jsonify({"message": {"error": "Invalid token"}})
+        except BadRequest:
+            return make_response({"message": {"error": "Bad Request"}}, 400)
+        except NotFound:
+            return make_response({"message": {"error": "Not Found"}}, 404)
+        except ExpiredSignatureError:
+            return make_response({"message": {"error": "Signature has expired"}}, 401)
+        except Exception as e:
+            # TODO: This is a catch-all exception handler. It should be removed in production
+            return make_response({"message": {"error": str(e)}}, 401)
 
     return decorator
 
@@ -95,7 +117,7 @@ def login():
     if not user.check_password(password):
         return jsonify({"message": {"error": "Wrong password"}}), 400
     jwt = encode(
-        {"username": username, "exp": datetime.now() + timedelta(minutes=30)},
+        {"username": username, "exp": datetime.utcnow() + timedelta(minutes=30)},
         LocalConfig.JWT_SECRET_KEY,
         algorithm="HS256",
     )
