@@ -102,6 +102,78 @@ Refer discourse for any queries related to the project.
 
 ### Difference between Vue2 and Vue3
 
+#### Vue2
+``` javascript
+// app.js Vue2
+Vue.component('component-name', {
+    template: '<h1>hi</h1>',
+    methods: {
+        onUpdate() {
+            this.$emit('update');
+        }
+    }
+})
+
+new Vue({
+    el: "#app",
+    data: {
+        message: "hi"
+    },
+    methods: {
+        onChangeMessage() {
+            this.message = "hello updated";
+        }
+    }
+})
+
+```
+
+``` html
+<!-- index.html -->
+<div id="app">
+    <component-name @update="onChangeMessage"></component-name>
+    <h1>{{ message }}</h1>
+</div>
+
+```
+
+#### Vue3
+
+```javascript
+// app.js Vue3
+const app = Vue.createApp({
+    data() {
+        return {
+            message: "hi"
+        }
+    },
+    methods: {
+        onChangeMessage() {
+            this.message = "hello updated";
+        }
+    }
+})
+
+app.component('component-name', {
+    template: '<h1>hi</h1>',
+    methods: {
+        onUpdate() {
+            this.$emit('update');
+        }
+    }
+})
+
+```
+
+```html
+<!-- index.html -->
+<div id="app">
+    <component-name @update="onChangeMessage"></component-name>
+    <h1>{{ message }}</h1>
+</div>
+```
+
+
 ## Week - 3 Vue3: Authentication
 
 ## Week - 4 Vue3: Routing
