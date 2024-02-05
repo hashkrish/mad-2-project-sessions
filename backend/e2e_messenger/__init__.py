@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from config import LocalConfig
 
@@ -10,6 +11,10 @@ def create_app():
     app.config.from_object(LocalConfig)
     app.app_context().push()
     db.init_app(app)
+    CORS(
+        app,
+        origins="http://localhost:5173",
+    )
 
     from e2e_messenger.controllers import auth_blueprint
 
@@ -36,7 +41,6 @@ def create_app():
 
     @app.route("/api/v1/status")
     def index():
-
         return {"status": "ok"}
 
     return app

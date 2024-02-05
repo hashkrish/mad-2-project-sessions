@@ -32,19 +32,28 @@
 #### Backend: Flask
 
 ```
-./backend/
-|-- app/
-|   |-- __init__.py
-|   |-- api/
-|       |-- __init__.py
-|       |-- users.py
-|       ...
-|-- config.py
-|-- controllers.py
-|-- database.py
-|-- models.py
-|-- requirements.txt
-|-- venv/
+backend/
+├── config.py
+├── create_table.py
+├── e2e_messenger/
+│   ├── controllers.py
+│   ├── database.py
+│   ├── extensions.py
+│   ├── __init__.py
+│   ├── models.py
+│   ├── resources/
+│   │   ├── access.py
+│   │   ├── __init__.py
+│   │   ├── message.py
+│   │   ├── role.py
+│   │   ├── user.py
+│   │   └── user_role.py
+│   └── validation.py
+├── instance/
+│   └── db.sqlite3
+├── local_run.sh
+├── requirements.txt
+└── rest.org
 ```
 
 #### Frontend: Vue3
@@ -92,6 +101,78 @@ Refer discourse for any queries related to the project.
 ## Week - 2 Flask+Vue3: Getting Started and Components
 
 ### Difference between Vue2 and Vue3
+
+#### Vue2
+``` javascript
+// app.js Vue2
+Vue.component('component-name', {
+    template: '<h1>hi</h1>',
+    methods: {
+        onUpdate() {
+            this.$emit('update');
+        }
+    }
+})
+
+new Vue({
+    el: "#app",
+    data: {
+        message: "hi"
+    },
+    methods: {
+        onChangeMessage() {
+            this.message = "hello updated";
+        }
+    }
+})
+
+```
+
+``` html
+<!-- index.html -->
+<div id="app">
+    <component-name @update="onChangeMessage"></component-name>
+    <h1>{{ message }}</h1>
+</div>
+
+```
+
+#### Vue3
+
+```javascript
+// app.js Vue3
+const app = Vue.createApp({
+    data() {
+        return {
+            message: "hi"
+        }
+    },
+    methods: {
+        onChangeMessage() {
+            this.message = "hello updated";
+        }
+    }
+})
+
+app.component('component-name', {
+    template: '<h1>hi</h1>',
+    methods: {
+        onUpdate() {
+            this.$emit('update');
+        }
+    }
+})
+
+```
+
+```html
+<!-- index.html -->
+<div id="app">
+    <component-name @update="onChangeMessage"></component-name>
+    <h1>{{ message }}</h1>
+</div>
+```
+
 
 ## Week - 3 Vue3: Authentication
 
