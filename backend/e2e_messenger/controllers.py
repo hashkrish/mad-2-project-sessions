@@ -109,16 +109,15 @@ def login():
     if not user.check_password(password):
         return jsonify({"message": {"error": "Wrong password"}}), 400
     jwt = encode(
-        {"username": username, "exp": datetime.utcnow() + timedelta(minutes=30)},
+        {
+            "username": username,
+            "exp": datetime.utcnow() + timedelta(minutes=30),
+            "user_id": user.id,
+        },
         LocalConfig.JWT_SECRET_KEY,
         algorithm="HS256",
     )
     return (
-        jsonify(
-            {
-                "status": "ok",
-                "jwt": jwt,
-            }
-        ),
+        jsonify({"status": "ok", "jwt": jwt, "username": username, "user_id": user.id}),
         200,
     )

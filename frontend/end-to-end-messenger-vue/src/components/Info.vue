@@ -1,10 +1,27 @@
-<script setup>
+<script>
+import { defineProps } from "vue";
+import { useCounterStore } from "../stores/counter";
+
 defineProps({
   msg: {
     type: String,
     required: true,
   },
 });
+
+export default {
+  data() {
+    return {
+      msg: this.$props.msg,
+      counter: useCounterStore(),
+    };
+  },
+  methods: {
+    handleClick() {
+      this.counter.increment();
+    },
+  },
+};
 </script>
 
 <template>
@@ -16,6 +33,8 @@ defineProps({
       <a href="https://flask.palletsprojects.com/en/2.3.x/">Flask</a> as the backend.
     </h3>
   </div>
+
+  <div style="cursor: pointer" @click="handleClick">{{ counter.count }} clicks</div>
 </template>
 
 <style scoped>

@@ -5,10 +5,18 @@ import Info from "./components/Info.vue";
 
 <template>
   <header>
-    <img alt="Flask logo" class="logo" src="@/assets/flask_logo.png" width="198" height="135" />
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
+      <div class="row">
+        <!-- <img
+          alt="Flask logo"
+          class="logo col"
+          src="@/assets/flask_logo.png"
+          width="198"
+          height="135"
+        /> -->
+        <img alt="Vue logo" class="logo col" src="@/assets/logo.svg" width="125" height="125" />
+      </div>
+
       <Info msg="End to End Messenger" />
 
       <nav>
@@ -35,7 +43,7 @@ header {
 
 nav {
   width: 100%;
-  font-size: 12px;
+  font-size: 1.5rem;
   text-align: center;
   margin-top: 2rem;
 }

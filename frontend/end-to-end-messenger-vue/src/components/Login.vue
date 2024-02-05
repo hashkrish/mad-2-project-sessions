@@ -1,4 +1,6 @@
 <script>
+import { useAuthStore } from "@/stores/local";
+
 export default {
   data() {
     return {
@@ -18,10 +20,13 @@ export default {
           password: this.password,
         }),
       })
-        .then((res) => {
-          if (res.ok) {
-            this.$router.push("/conversation");
-          }
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          localStorage.setItem("jwt", data.jwt);
+          localStorage.setItem("username", data.username);
+          localStorage.setItem("user_id", data.user_id);
+          this.$router.push("/conversation");
         })
         .catch((err) => {
           console.log(err);
