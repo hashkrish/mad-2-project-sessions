@@ -32,19 +32,28 @@
 #### Backend: Flask
 
 ```
-./backend/
-|-- app/
-|   |-- __init__.py
-|   |-- api/
-|       |-- __init__.py
-|       |-- users.py
-|       ...
-|-- config.py
-|-- controllers.py
-|-- database.py
-|-- models.py
-|-- requirements.txt
-|-- venv/
+backend/
+├── config.py
+├── create_table.py
+├── e2e_messenger/
+│   ├── controllers.py
+│   ├── database.py
+│   ├── extensions.py
+│   ├── __init__.py
+│   ├── models.py
+│   ├── resources/
+│   │   ├── access.py
+│   │   ├── __init__.py
+│   │   ├── message.py
+│   │   ├── role.py
+│   │   ├── user.py
+│   │   └── user_role.py
+│   └── validation.py
+├── instance/
+│   └── db.sqlite3
+├── local_run.sh
+├── requirements.txt
+└── rest.org
 ```
 
 #### Frontend: Vue3
