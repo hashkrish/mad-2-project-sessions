@@ -50,6 +50,7 @@ export default {
           if (this.login) {
             localStorage.setItem("jwt", data.jwt);
             localStorage.setItem("user_id", data.user_id);
+            localStorage.setItem("username", data.user_id);
             localStorage.setItem("exp", data.exp);
             this.$router.push("/conversation");
           } else {

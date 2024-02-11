@@ -18,7 +18,7 @@ export default {
     getSenders() {
       let senders = [];
       for (let message of this.conversation) {
-        if (this.username == this.userStore[message.sender_id]?.username) {
+        if (this.user_id === message.sender_id) {
           continue;
         }
         if (!senders.includes(message.sender_id)) {
@@ -128,15 +128,15 @@ export default {
     <div class="row d-flex my-3">
       <!-- TODO refactor style to get from data() -->
       <div
-        v-for="sender in getSenders"
-        :key="sender"
+        v-for="sender_id in getSenders"
+        :key="sender_id"
         class="col text-center mx-1 tab-sender"
         :style="{
-          backgroundColor: sender == current_opponent_id ? 'var(--color-background-mute)' : '',
+          backgroundColor: sender_id == current_opponent_id ? 'var(--color-background-mute)' : '',
         }"
-        @click="current_opponent_id = sender"
+        @click="current_opponent_id = sender_id"
       >
-        {{ getSenderName(sender) }}
+        {{ getSenderName(sender_id) }}
       </div>
     </div>
     <hr />
@@ -147,18 +147,14 @@ export default {
       <div
         v-for="message in getConversation"
         :key="message.id"
-        :class="{ 'text-end': userStore[message.sender_id]?.username == username }"
+        :class="{ 'text-end': message.sender_id == user_id }"
         :style="{
           'padding-right': '10px',
           'padding-left': '10px',
         }"
       >
         <b>
-          {{
-            userStore[message.sender_id]?.username == username
-              ? "You"
-              : userStore[message.sender_id]?.username
-          }}
+          {{ message.sender_id == user_id ? "You" : userStore[message.sender_id]?.username }}
         </b>
         <br />
         {{ message?.text }}
