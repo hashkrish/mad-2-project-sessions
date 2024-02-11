@@ -1,7 +1,6 @@
 <script type="text/javascript">
-import { useRouter } from "vue-router";
+import router from "@/router";
 import { useUserStore } from "../stores/user";
-const router = useRouter();
 export default {
   data() {
     return {
@@ -44,15 +43,26 @@ export default {
     if (!localStorage.getItem("jwt")) {
       router.push("/");
     }
+    let headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    };
+
+    // Redirect to login if not logged in
+    if (!localStorage.getItem("jwt")) {
+      router.push("/");
+    }
+
     fetch("http://localhost:5000/api/v1/messages", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
+      headers: headers,
     })
       .then((res) => res.json())
       .then(async (data) => {
+        if (data?.message?.error) {
+          alert(data.message.error);
+          return;
+        }
         this.conversation = data;
         for (let message of data) {
           let user = await this.userStore[message.sender_id];
@@ -73,6 +83,7 @@ export default {
       });
   },
   methods: {
+    // Send message to the current conversation partner
     sendMessage(event) {
       console.log(
         `Sending message: "${event.target[0].value}" from ${this.username} to ${this.userStore[this.current_opponent_id]?.username}`,
@@ -92,6 +103,10 @@ export default {
       })
         .then((res) => res.json())
         .then((data) => {
+          if (data.error) {
+            alert(data.error);
+            return;
+          }
           this.conversation.push(data);
         })
         .catch((error) => {
@@ -107,20 +122,15 @@ export default {
 </script>
 <template>
   <div class="coversation mt-4 mt-md-1">
-    <div class="d-md-flex justify-content-center d-none" ><h1 class="my-4">Conversation</h1></div>
+    <div class="d-md-flex justify-content-center d-none">
+      <h1 class="my-4">Conversation</h1>
+    </div>
     <div class="row d-flex my-3">
+      <!-- TODO refactor style to get from data() -->
       <div
         v-for="sender in getSenders"
         :key="sender"
-        class="col text-center mx-1"
-        style="
-          cursor: pointer;
-          border-color: var(--color-border);
-          border-width: 1px;
-          border-style: solid;
-          padding: 5px;
-          border-radius: 5px;
-        "
+        class="col text-center mx-1 tab-sender"
         :style="{
           backgroundColor: sender == current_opponent_id ? 'var(--color-background-mute)' : '',
         }"
@@ -134,13 +144,13 @@ export default {
       class="d-flex flex-column max-height-100"
       style="overflow-y: auto; max-height: 80vh; min-height: 60vh"
     >
-      <p
+      <div
         v-for="message in getConversation"
         :key="message.id"
         :class="{ 'text-end': userStore[message.sender_id]?.username == username }"
         :style="{
           'padding-right': '10px',
-          'padding-left': '10px'
+          'padding-left': '10px',
         }"
       >
         <b>
@@ -152,8 +162,8 @@ export default {
         </b>
         <br />
         {{ message?.text }}
-      <hr />
-      </p>
+        <hr />
+      </div>
     </div>
     <div>
       <form @submit.prevent="sendMessage">
@@ -176,5 +186,15 @@ input {
   color: var(--color-text) !important;
   background-color: var(--color-background) !important;
   border-color: var(--color-border) !important;
+}
+
+.tab-sender {
+  cursor: pointer;
+  user-select: none;
+  border-color: var(--color-border);
+  border-width: 1px;
+  border-style: solid;
+  padding: 5px;
+  border-radius: 5px;
 }
 </style>
