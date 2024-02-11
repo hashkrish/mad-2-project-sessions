@@ -1,4 +1,5 @@
 import re
+import traceback
 from datetime import datetime, timedelta
 from functools import wraps
 
@@ -6,7 +7,7 @@ from werkzeug.exceptions import BadRequest, NotFound
 
 from config import LocalConfig
 from flask import Blueprint, jsonify, request, make_response
-from jwt import ExpiredSignatureError, decode, encode
+from jwt import DecodeError, ExpiredSignatureError, decode, encode
 
 from e2e_messenger.extensions import db
 from e2e_messenger.models import Access, User, UserRole
@@ -23,6 +24,9 @@ method_to_action = {
 def token_required(f):
     @wraps(f)
     def decorator(*args, **kwargs):
+        if request.path == "/api/v1/users" and request.method == "POST":
+            return f(*args, **kwargs)
+
         token = None
 
         if "Authorization" in request.headers:
@@ -85,8 +89,12 @@ def token_required(f):
         except ExpiredSignatureError:
             response["message"]["error"] = "Signature has expired"
             return make_response(response, 401)
+        except DecodeError:
+            response["message"]["error"] = "Invalid token"
+            return make_response(response, 401)
         except Exception as e:
             # TODO: This is a catch-all exception handler. It should be removed in production
+            traceback.print_exc()
             response["message"]["error"] = str(e)
             return make_response(response, 500)
 
