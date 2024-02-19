@@ -217,15 +217,15 @@ Git is a powerful version control system used for tracking changes in code and c
 
 #### Concepts
 
-    - **Repository**: A central storage location for your project's files and history. Can be local or hosted online (e.g., GitHub, GitLab).
+  - **Repository**: A central storage location for your project's files and history. Can be local or hosted online (e.g., GitHub, GitLab).
 
-    - **Working Directory**: Your local copy of the files from the repository.
+  - **Working Directory**: Your local copy of the files from the repository.
 
-    - **Staging Area**: Where you mark files to be included in the next commit.
+  - **Staging Area**: Where you mark files to be included in the next commit.
 
-    - **Commit**: A snapshot of your project at a specific point in time, with a message describing the changes.
+  - **Commit**: A snapshot of your project at a specific point in time, with a message describing the changes.
 
-    - **Branch**: A separate line of development diverging from the main branch (usually master).
+  - **Branch**: A separate line of development diverging from the main branch (usually master).
 
 #### Workflow
 
@@ -298,37 +298,37 @@ Git is a powerful version control system used for tracking changes in code and c
 
 #### Best Practices
 
-    - Commit frequently with descriptive messages.
+  - Commit frequently with descriptive messages.
 
-    - Use branches for new features and bug fixes.
+  - Use branches for new features and bug fixes.
 
-    - Pull changes from the remote repository before pushing your own changes.
+  - Pull changes from the remote repository before pushing your own changes.
 
-    - Review and test your changes before committing and pushing.
+  - Review and test your changes before committing and pushing.
 
 #### Example workflow
 
-    1. You start a new project and initialize a git repository.
+  1. You start a new project and initialize a git repository.
 
-    1. You write some code and add it to the staging area.
+  1. You write some code and add it to the staging area.
 
-    1. You commit the changes with a message "Added feature X".
+  1. You commit the changes with a message "Added feature X".
 
-    1. You create a branch for a new bug fix and switch to it.
+  1. You create a branch for a new bug fix and switch to it.
 
-    1. You fix the bug, commit the changes, and push the branch to the remote repository.
+  1. You fix the bug, commit the changes, and push the branch to the remote repository.
 
-    1. Meanwhile, your colleague fixes another bug on the main branch and pushes it.
+  1. Meanwhile, your colleague fixes another bug on the main branch and pushes it.
 
-    1. You pull the changes from the remote main branch and merge them into your bug fix branch.
+  1. You pull the changes from the remote main branch and merge them into your bug fix branch.
 
-    1. You push your bug fix branch to the remote repository.
+  1. You push your bug fix branch to the remote repository.
 
 This is a simplified example, but it demonstrates the basic workflow of using git for version control and collaboration.
 
 #### Resources
 
-    - [Git Documentation](https://git-scm.com/)
+  - [Git Documentation](https://git-scm.com/)
 
 ### Zip
 
@@ -336,11 +336,11 @@ This is a simplified example, but it demonstrates the basic workflow of using gi
 
 Zip is a file format that supports lossless data compression. It is widely used to compress files for storage and transfer. Here's a breakdown of the basics:
 
-    - **Compression**: Reducing the size of files to save space and speed up transfer times.
+  - **Compression**: Reducing the size of files to save space and speed up transfer times.
 
-    - **Archiving**: Combining multiple files into a single file for easier storage and transfer.
+  - **Archiving**: Combining multiple files into a single file for easier storage and transfer.
 
-    - **Extraction**: Reversing the compression process to restore the original files.
+  - **Extraction**: Reversing the compression process to restore the original files.
 
 #### Workflow
 
