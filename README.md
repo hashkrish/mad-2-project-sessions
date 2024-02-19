@@ -218,9 +218,13 @@ Git is a powerful version control system used for tracking changes in code and c
 #### Concepts
 
     - **Repository**: A central storage location for your project's files and history. Can be local or hosted online (e.g., GitHub, GitLab).
+
     - **Working Directory**: Your local copy of the files from the repository.
+
     - **Staging Area**: Where you mark files to be included in the next commit.
+
     - **Commit**: A snapshot of your project at a specific point in time, with a message describing the changes.
+
     - **Branch**: A separate line of development diverging from the main branch (usually master).
 
 #### Workflow
@@ -232,7 +236,9 @@ Git is a powerful version control system used for tracking changes in code and c
 2. Modify and Stage Files:
 
    Edit files as usual.
+
    `git add <filename>`: Adds a file to the staging area for the next commit.
+
    `git add .`: Adds all modified files in the working directory.
 
 3. Commit Changes:
@@ -242,19 +248,25 @@ Git is a powerful version control system used for tracking changes in code and c
 4. Branching (Optional):
 
    `git branch <branch_name>`: Creates a new branch.
+
    `git checkout <branch_name>`: Switches to a different branch.
 
 5. Collaboration (Using a remote repository):
 
    `git clone <url>`: Downloads a copy of a remote repository.
+
    `git push origin <branch_name>`: Uploads your local branch to the remote repository.
+
    `git pull origin <branch_name>`: Downloads changes from the remote branch and merges them into your local branch.
 
 6. Additional Commands:
 
    `git status`: Shows the state of your working directory and staging area.
+
    `git log`: Displays the commit history.
+
    `git diff`: Shows the difference between files.
+
    `git revert`: Undoes a specific commit.
 
 7. Ignoring Files:
@@ -271,10 +283,15 @@ Git is a powerful version control system used for tracking changes in code and c
    ```
 
    - `.env` ignores the file **.env** in project root.
+
    - `**node_modules` ignores all **node_modules** directories in the project.
+
    - `**__pycache__` ignores all \***\*pycache\*\*** directories in the project.
+
    - `backend/venv` ignores the **venv** directory in the backend directory.
+
    - `etc.d*` ignores all files and directories starting with **etc.d** in the project root.
+
    - `**temp*` ignores all files and directories starting with **temp** in the project.
 
 > Note: committing the `.gitignore` file is important to ensure that the ignored files are not added to the repository.
@@ -282,19 +299,29 @@ Git is a powerful version control system used for tracking changes in code and c
 #### Best Practices
 
     - Commit frequently with descriptive messages.
+
     - Use branches for new features and bug fixes.
+
     - Pull changes from the remote repository before pushing your own changes.
+
     - Review and test your changes before committing and pushing.
 
 #### Example workflow
 
     1. You start a new project and initialize a git repository.
+
     1. You write some code and add it to the staging area.
+
     1. You commit the changes with a message "Added feature X".
+
     1. You create a branch for a new bug fix and switch to it.
+
     1. You fix the bug, commit the changes, and push the branch to the remote repository.
+
     1. Meanwhile, your colleague fixes another bug on the main branch and pushes it.
+
     1. You pull the changes from the remote main branch and merge them into your bug fix branch.
+
     1. You push your bug fix branch to the remote repository.
 
 This is a simplified example, but it demonstrates the basic workflow of using git for version control and collaboration.
@@ -310,7 +337,9 @@ This is a simplified example, but it demonstrates the basic workflow of using gi
 Zip is a file format that supports lossless data compression. It is widely used to compress files for storage and transfer. Here's a breakdown of the basics:
 
     - **Compression**: Reducing the size of files to save space and speed up transfer times.
+
     - **Archiving**: Combining multiple files into a single file for easier storage and transfer.
+
     - **Extraction**: Reversing the compression process to restore the original files.
 
 #### Workflow
@@ -346,3 +375,5 @@ Zip is a file format that supports lossless data compression. It is widely used 
 - Similar to the backend, create a node_modules directory outside of the project directory and provide a soft link to the project directory to prevent the node_modules from being added to the repository and zip. While running the `zip` command use the `-y` flag to preserve symbolic links.
 
 ## Week - 5 Celery + Redis: Scheduling
+
+Will be updated after the session.
