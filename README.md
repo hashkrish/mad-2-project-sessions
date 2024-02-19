@@ -74,7 +74,7 @@ backend/
 ├── e2e_messenger/      # Application package
 │   ├── __init__.py     # Application package initializer
 │   ├── controllers.py  # Controllers for the application with jwt and rbac
-│   ├── database.py 
+│   ├── database.py
 │   ├── extensions.py   # Extensions for the application DB, Api
 │   ├── models.py       # Models for the application
 │   ├── resources/      # API Resources for the application
@@ -97,7 +97,7 @@ backend/
 #### Frontend: Vue3
 
 ```
-./
+frontend/
 └── end-to-end-messenger-vue/               # Vue3 with Authentication, Routing and Components
     ├── index.html                          # Main HTML file for the application
     ├── jsconfig.json                       # JS Config to manage the project
@@ -137,7 +137,6 @@ backend/
     ├── .prettierrc                         # Prettier config to manage code formatting
     └── vite.config.js                      # Vite config to manage the build and development
 ```
-
 
 ### Getting Started: Difference between Vue2 and Vue3
 
@@ -210,6 +209,140 @@ app.component("component-name", {
 </div>
 ```
 
-## Week - 4 Vue3: Routing
+## Week - 4 Git, Project Design
+
+Git is a powerful version control system used for tracking changes in code and collaborating with others. Here's a breakdown of the basics:
+
+### Git
+
+#### Concepts
+
+    - **Repository**: A central storage location for your project's files and history. Can be local or hosted online (e.g., GitHub, GitLab).
+    - **Working Directory**: Your local copy of the files from the repository.
+    - **Staging Area**: Where you mark files to be included in the next commit.
+    - **Commit**: A snapshot of your project at a specific point in time, with a message describing the changes.
+    - **Branch**: A separate line of development diverging from the main branch (usually master).
+
+#### Workflow
+
+1. Initialize:
+
+   `git init`: Creates a new git repository in your current directory.
+
+2. Modify and Stage Files:
+
+   Edit files as usual.
+   `git add <filename>`: Adds a file to the staging area for the next commit.
+   `git add .`: Adds all modified files in the working directory.
+
+3. Commit Changes:
+
+   `git commit -m "<message>"`: Captures the staged changes with a message.
+
+4. Branching (Optional):
+
+   `git branch <branch_name>`: Creates a new branch.
+   `git checkout <branch_name>`: Switches to a different branch.
+
+5. Collaboration (Using a remote repository):
+
+   `git clone <url>`: Downloads a copy of a remote repository.
+   `git push origin <branch_name>`: Uploads your local branch to the remote repository.
+   `git pull origin <branch_name>`: Downloads changes from the remote branch and merges them into your local branch.
+
+6. Additional Commands:
+
+   `git status`: Shows the state of your working directory and staging area.
+   `git log`: Displays the commit history.
+   `git diff`: Shows the difference between files.
+   `git revert`: Undoes a specific commit.
+
+7. Ignoring Files:
+
+   Create a `.gitignore` file in the root of your repository and list the files and directories you want to ignore. `.gitignore` file example:
+
+   ```
+   .env
+   **node_modules
+   **__pycache__
+   backend/venv
+   etc.d*
+   **temp*
+   ```
+
+   - `.env` ignores the file **.env** in project root.
+   - `**node_modules` ignores all **node_modules** directories in the project.
+   - `**__pycache__` ignores all \***\*pycache\*\*** directories in the project.
+   - `backend/venv` ignores the **venv** directory in the backend directory.
+   - `etc.d*` ignores all files and directories starting with **etc.d** in the project root.
+   - `**temp*` ignores all files and directories starting with **temp** in the project.
+
+> Note: committing the `.gitignore` file is important to ensure that the ignored files are not added to the repository.
+
+#### Best Practices
+
+    - Commit frequently with descriptive messages.
+    - Use branches for new features and bug fixes.
+    - Pull changes from the remote repository before pushing your own changes.
+    - Review and test your changes before committing and pushing.
+
+#### Example workflow
+
+    1. You start a new project and initialize a git repository.
+    1. You write some code and add it to the staging area.
+    1. You commit the changes with a message "Added feature X".
+    1. You create a branch for a new bug fix and switch to it.
+    1. You fix the bug, commit the changes, and push the branch to the remote repository.
+    1. Meanwhile, your colleague fixes another bug on the main branch and pushes it.
+    1. You pull the changes from the remote main branch and merge them into your bug fix branch.
+    1. You push your bug fix branch to the remote repository.
+
+This is a simplified example, but it demonstrates the basic workflow of using git for version control and collaboration.
+
+#### Resources
+
+    - [Git Documentation](https://git-scm.com/)
+
+### Zip
+
+#### Concepts
+
+Zip is a file format that supports lossless data compression. It is widely used to compress files for storage and transfer. Here's a breakdown of the basics:
+
+    - **Compression**: Reducing the size of files to save space and speed up transfer times.
+    - **Archiving**: Combining multiple files into a single file for easier storage and transfer.
+    - **Extraction**: Reversing the compression process to restore the original files.
+
+#### Workflow
+
+1. Create a Zip File:
+
+   `zip <archive_name> <file1> <file2> ...`: Creates a new zip file containing the specified files.
+
+2. Extract a Zip File:
+
+   `unzip <archive_name>`: Extracts the contents of a zip file into the current directory.
+
+3. Additional Commands:
+
+   - `zip -r <archive_name> <directory>`: Recursively zips the contents of a directory.
+
+   - `unzip -l <archive_name>`: Lists the contents of a zip file without extracting them.
+
+   - `unzip -d <destination_directory> <archive_name>`: Extracts the contents of a zip file into a specific directory.
+
+   - `zip -y <archive_name> <file1> <file2> ...`: Preserves symbolic links in the zip file.
+
+   - `zip -r <archive_name> <directory> -x <pattern>`: Excludes files matching a specific pattern from the zip file.
+
+### Project Design
+
+#### Backend
+
+- Create a virtual environment directory outside of the project directory and install the requirements and provide a soft link to the project directory to prevent the virtual environment from being added to the repository and zip. While running the `zip` command use the `-y` flag to preserve symbolic links.
+
+#### Frontend
+
+- Similar to the backend, create a node_modules directory outside of the project directory and provide a soft link to the project directory to prevent the node_modules from being added to the repository and zip. While running the `zip` command use the `-y` flag to preserve symbolic links.
 
 ## Week - 5 Celery + Redis: Scheduling
