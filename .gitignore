@@ -37,3 +37,4 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+/backend/celerybeat-schedule

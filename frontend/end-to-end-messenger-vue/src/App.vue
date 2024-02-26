@@ -19,6 +19,12 @@ import Info from "./components/Info.vue";
 
       <Info msg="End to End Messenger" />
 
+      <div style="border: 1px solid black; margin: 10px">
+        <audio controls>
+          <source src="http://localhost:5000/music/1" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>

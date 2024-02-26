@@ -126,6 +126,14 @@ def login():
         algorithm="HS256",
     )
     return (
-        jsonify({"status": "ok", "jwt": jwt, "username": username, "user_id": user.id}),
+        jsonify(
+            {
+                "status": "ok",
+                "jwt": jwt,
+                "username": username,
+                "user_id": user.id,
+                "exp": (datetime.utcnow() + timedelta(minutes=30)).strftime("%s"),
+            }
+        ),
         200,
     )

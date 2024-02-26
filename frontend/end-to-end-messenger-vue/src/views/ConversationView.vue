@@ -1,6 +1,6 @@
 <script type="text/javascript">
 import router from "@/router";
-import { useUserStore } from "../stores/user";
+import { useUserStore } from "@/stores/user";
 export default {
   data() {
     return {

@@ -19,7 +19,10 @@ class User(db.Model, UserMixin):
     @property
     def is_admin(self):
         admin_role = Role.query.filter_by(name="admin").first()
-        return UserRole.query.filter_by(user_id=self.id, role_id=admin_role.id).first() is not None
+        return (
+            UserRole.query.filter_by(user_id=self.id, role_id=admin_role.id).first()
+            is not None
+        )
 
     def __repr__(self):
         return "<User {}>".format(self.username)
@@ -62,10 +65,23 @@ class Message(db.Model):
     sender_id = Column(Integer(), ForeignKey("user.id"), index=True)
     receiver_id = Column(Integer(), ForeignKey("user.id"), index=True)
     text = Column(String(256))
-    timestamp = Column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
+    timestamp = Column(
+        TIMESTAMP, server_default=func.current_timestamp(), nullable=False
+    )
 
     def __repr__(self):
         return "<Message {}:{}>".format(self.sender_id, self.receiver_id)
+
+
+class Report(db.Model):
+    __tablename__ = "report"
+    id = Column(Integer(), primary_key=True, autoincrement=True)
+    path = Column(String(256))
+    status = Column(String(64), default="PENDING")
+    timestamp = Column(
+        TIMESTAMP, server_default=func.current_timestamp(), nullable=False
+    )
+
 
 """
 SQL to get the messages sent by user 1 to user 2:

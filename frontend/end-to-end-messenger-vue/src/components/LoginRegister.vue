@@ -58,7 +58,7 @@ export default {
             this.login = true;
             this.username = data.username;
             this.password = "";
-            this.$router.push("/");
+            // this.$router.push("/");
           }
         })
         .catch((err) => {
@@ -116,7 +116,7 @@ export default {
       />
     </div>
     <div v-if="!login" class="mb-3">
-      <label for="email" class="form-label">Username</label>
+      <label for="email" class="form-label">Email</label>
       <input
         v-model="email"
         type="text"
@@ -142,7 +142,6 @@ export default {
   </form>
   <div v-else>
     <h1>You are logged in</h1>
-    <!-- TODO add logout button -->
   </div>
 </template>
 

@@ -13,6 +13,11 @@ parser.add_argument("sender_id", type=Validator.user_id_validator, required=True
 parser.add_argument("receiver_id", type=Validator.user_id_validator, required=True)
 parser.add_argument("text", type=str, required=True)
 
+patch_parser = reqparse.RequestParser()
+patch_parser.add_argument("sender_id", type=Validator.user_id_validator)
+patch_parser.add_argument("receiver_id", type=Validator.user_id_validator)
+patch_parser.add_argument("text", type=str)
+
 message_fields = {
     "id": fields.Integer,
     "sender_id": fields.Integer,
@@ -40,7 +45,19 @@ class MessageResource(Resource):
     @marshal_with(message_fields)
     def put(self, message_id):
         abort_if_message_doesnt_exist(message_id)
-        args = parser.parse_args()
+        args = patch_parser.parse_args()
+        message = Message.query.filter_by(id=message_id).first()
+        for arg in args:
+            if args[arg] is not None:
+                setattr(message, arg, args[arg])
+        db.session.commit()
+        return message, 200
+
+    @token_required
+    @marshal_with(message_fields)
+    def patch(self, message_id):
+        abort_if_message_doesnt_exist(message_id)
+        args = patch_parser.parse_args()
         message = Message.query.filter_by(id=message_id).first()
         for arg in args:
             if args[arg] is not None:
